@@ -60,6 +60,7 @@
 	$t_bug_data = new BugData;
 	$t_bug_data->project_id             = $t_project_id;
 	$t_bug_data->reporter_id            = auth_get_current_user_id();
+	$t_bug_data->enquirer_id			= gpc_get_int( 'enquirer_id', auth_get_current_user_id());
 	$t_bug_data->build                  = gpc_get_string( 'build', '' );
 	$t_bug_data->platform               = gpc_get_string( 'platform', '' );
 	$t_bug_data->os                     = gpc_get_string( 'os', '' );

@@ -446,6 +446,21 @@ function print_column_title_reporter_id( $p_sort, $p_dir, $p_columns_target = CO
  * @return null
  * @access public
  */
+function print_column_title_enquirer_id( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+	echo '<td>';
+	print_view_bug_sort_link( 'Demandeur', 'enquirer_id', $p_sort, $p_dir, $p_columns_target );
+	print_sort_icon( $p_dir, $p_sort, 'enquirer_id' );
+	echo '</td>';
+}
+
+/**
+ *
+ * @param string sort
+ * @param string direction
+ * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * @return null
+ * @access public
+ */
 function print_column_title_handler_id( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	echo '<td>';
 	print_view_bug_sort_link( lang_get( 'assigned_to' ), 'handler_id', $p_sort, $p_dir, $p_columns_target );
@@ -1181,6 +1196,19 @@ function print_column_handler_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 function print_column_reporter_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	echo '<td class="center">';
 	echo prepare_user_name( $p_bug->reporter_id );
+	echo '</td>';
+}
+
+/**
+ *
+ * @param BugData $p_bug bug obect
+ * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * @return null
+ * @access public
+ */
+function print_column_enquirer_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+	echo '<td class="center">';
+	echo prepare_user_name( $p_bug->enquirer_id );
 	echo '</td>';
 }
 

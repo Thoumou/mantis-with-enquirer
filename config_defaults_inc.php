@@ -2036,6 +2036,7 @@
 	$g_bug_report_page_fields = array(
 		'category_id',
 		'view_state',
+		'enquirer',
 		'handler',
 		'priority',
 		'severity',
@@ -2070,6 +2071,7 @@
 		'date_submitted',
 		'last_updated',
 		'reporter',
+		'enquirer',
 		'handler',
 		'priority',
 		'severity',
@@ -2106,6 +2108,7 @@
 		'date_submitted',
 		'last_updated',
 		'reporter',
+		'enquirer',
 		'handler',
 		'priority',
 		'severity',
@@ -2146,6 +2149,7 @@
 		'date_submitted',
 		'last_updated',
 		'reporter',
+		'enquirer',
 		'handler',
 		'priority',
 		'severity',
@@ -2185,6 +2189,7 @@
 		'date_submitted',
 		'last_updated',
 		'reporter',
+		'enquirer',
 		'handler',
 		'priority',
 		'severity',
@@ -2256,6 +2261,21 @@
 	 * @global int $g_private_bug_threshold
 	 */
 	$g_private_bug_threshold		= DEVELOPER;
+	
+	/**
+	 * access level needed to be able to be listed in the enquirer to field.
+	 * @global int $g_enquirer_bug_threshold
+	 */
+	$g_enquirer_bug_threshold		= REPORTER;
+	
+	/**
+	 * access level needed to show the Enquirer: button bug_view*_page or
+	 *  the Enquirer list in bug_update*_page.
+	 *  This allows control over who can route bugs
+	 * This defaults to $g_enquirer_bug_threshold
+	 * @global int $g_update_bug_enquirer_threshold
+	 */
+	$g_update_bug_enquirer_threshold			= DEVELOPER;
 
 	/**
 	 * access level needed to be able to be listed in the assign to field.

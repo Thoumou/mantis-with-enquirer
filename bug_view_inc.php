@@ -151,6 +151,7 @@
 	}
 
 	$tpl_show_reporter = in_array( 'reporter', $t_fields );
+	$tpl_show_enquirer = in_array( 'enquirer', $t_fields );
 	$tpl_show_handler = in_array( 'handler', $t_fields ) && access_has_bug_level( config_get( 'view_handler_threshold' ), $f_bug_id );
 	$tpl_show_additional_information = !is_blank( $tpl_bug->additional_information ) && in_array( 'additional_info', $t_fields );
 	$tpl_show_steps_to_reproduce = !is_blank( $tpl_bug->steps_to_reproduce ) && in_array( 'steps_to_reproduce', $t_fields );
@@ -333,6 +334,30 @@
 			echo '<td class="category">', lang_get( 'reporter' ), '</td>';
 			echo '<td>';
 			print_user_with_subject( $tpl_bug->reporter_id, $tpl_bug_id );
+			echo '</td>';
+		} else {
+			$t_spacer += 2;
+		}
+
+		echo '<td colspan="', $t_spacer, '">&#160;</td>';
+
+		echo '</tr>';
+	}
+	
+	#
+	# Enquirer
+	#
+
+	if ( $tpl_show_enquirer ) {
+		echo '<tr ', helper_alternate_class(), '>';
+
+		$t_spacer = 4;
+
+		# Reporter
+		if ( $tpl_show_enquirer ) {
+			echo '<td class="category">', 'Demandeur', '</td>';
+			echo '<td>';
+			print_user_with_subject( $tpl_bug->enquirer_id, $tpl_bug_id );
 			echo '</td>';
 		} else {
 			$t_spacer += 2;

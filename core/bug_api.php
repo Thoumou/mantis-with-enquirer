@@ -73,6 +73,7 @@ class BugData {
 	protected $id;
 	protected $project_id = null;
 	protected $reporter_id = 0;
+	protected $enquirer_id = 0;
 	protected $handler_id = 0;
 	protected $duplicate_id = 0;
 	protected $priority = NORMAL;
@@ -150,6 +151,7 @@ class BugData {
 			case 'id':
 			case 'project_id':
 			case 'reporter_id':
+			case 'enquirer_id':
 			case 'handler_id':
 			case 'duplicate_id':
 			case 'priority':
@@ -349,7 +351,7 @@ class BugData {
 
 		# Insert the rest of the data
 		$query = "INSERT INTO $t_bug_table
-					    ( project_id,reporter_id, handler_id,duplicate_id,
+					    ( project_id, reporter_id, enquirer_id, handler_id, duplicate_id,
 					      priority,severity, reproducibility,status,
 					      resolution,projection, category_id,date_submitted,
 					      last_updated,eta, bug_text_id,
@@ -364,9 +366,10 @@ class BugData {
 					      " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ",
 					      " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ",
 					      " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ",
-					      " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ')';
+					      " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ",
+                                              " . db_param() . ')';
 
-		db_query_bound( $query, Array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, db_now(), db_now(), $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
+		db_query_bound( $query, Array( $this->project_id, $this->reporter_id, $this->enquirer_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, db_now(), db_now(), $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
 
 		$this->id = db_insert_id( $t_bug_table );
 
@@ -407,7 +410,7 @@ class BugData {
 		#  shouldn't get updated like this anyway.  If you really need to change
 		#  them use bug_set_field()
 		$query = "UPDATE $t_bug_table
-					SET project_id=" . db_param() . ', reporter_id=' . db_param() . ",
+					SET project_id=" . db_param() . ', reporter_id=' . db_param() . ', enquirer_id=' . db_param() . ",
 						handler_id=" . db_param() . ', duplicate_id=' . db_param() . ",
 						priority=" . db_param() . ', severity=' . db_param() . ",
 						reproducibility=" . db_param() . ', status=' . db_param() . ",
@@ -418,7 +421,7 @@ class BugData {
 						build=" . db_param() . ', fixed_in_version=' . db_param() . ',';
 
 		$t_fields = Array(
-			$this->project_id, $this->reporter_id,
+			$this->project_id, $this->reporter_id, $this->enquirer_id,
 			$this->handler_id, $this->duplicate_id,
 			$this->priority, $this->severity,
 			$this->reproducibility, $this->status,
@@ -457,6 +460,7 @@ class BugData {
 		# log changes
 		history_log_event_direct( $c_bug_id, 'project_id', $t_old_data->project_id, $this->project_id );
 		history_log_event_direct( $c_bug_id, 'reporter_id', $t_old_data->reporter_id, $this->reporter_id );
+		history_log_event_direct( $c_bug_id, 'enquirer_id', $t_old_data->enquirer_id, $this->enquirer_id );
 		history_log_event_direct( $c_bug_id, 'handler_id', $t_old_data->handler_id, $this->handler_id );
 		history_log_event_direct( $c_bug_id, 'priority', $t_old_data->priority, $this->priority );
 		history_log_event_direct( $c_bug_id, 'severity', $t_old_data->severity, $this->severity );
@@ -779,6 +783,21 @@ function bug_ensure_exists( $p_bug_id ) {
  */
 function bug_is_user_reporter( $p_bug_id, $p_user_id ) {
 	if( bug_get_field( $p_bug_id, 'reporter_id' ) == $p_user_id ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * check if the given user is the enquirer of the bug
+ * @param int p_bug_id integer representing bug id
+ * @param int p_user_id integer reprenting a user id
+ * @return bool return true if the user is the enquirer, false otherwise
+ * @access public
+ */
+function bug_is_user_enquirer( $p_bug_id, $p_user_id ) {
+	if( bug_get_field( $p_bug_id, 'enquirer_id' ) == $p_user_id ) {
 		return true;
 	} else {
 		return false;
@@ -1453,6 +1472,7 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 		# int
 		case 'project_id':
 		case 'reporter_id':
+		case 'enquirer_id':
 		case 'handler_id':
 		case 'duplicate_id':
 		case 'priority':

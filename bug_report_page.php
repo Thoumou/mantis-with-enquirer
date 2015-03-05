@@ -44,8 +44,8 @@
 
 		# master bug is not read-only...
 		if ( bug_is_readonly( $f_master_bug_id ) ) {
-			error_parameters( $f_master_bug_id );
-			trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+				error_parameters( $f_master_bug_id );
+				trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
 		}
 
 		$t_bug = bug_get( $f_master_bug_id, true );
@@ -56,13 +56,13 @@
 		#@@@ (thraxisp) Note that the master bug is cloned into the same project as the master, independent of
 		#       what the current project is set to.
 		if( $t_bug->project_id != helper_get_current_project() ) {
-            # in case the current project is not the same project of the bug we are viewing...
-            # ... override the current project. This to avoid problems with categories and handlers lists etc.
-            $g_project_override = $t_bug->project_id;
-            $t_changed_project = true;
-        } else {
-            $t_changed_project = false;
-        }
+			# in case the current project is not the same project of the bug we are viewing...
+			# ... override the current project. This to avoid problems with categories and handlers lists etc.
+			$g_project_override = $t_bug->project_id;
+			$t_changed_project = true;
+		} else {
+			$t_changed_project = false;
+		}
 
 	    access_ensure_project_level( config_get( 'report_bug_threshold' ) );
 
@@ -74,6 +74,7 @@
 		$f_target_version		= $t_bug->target_version;
 		$f_profile_id			= 0;
 		$f_handler_id			= $t_bug->handler_id;
+		$f_enquirer_id			= $t_bug->enquirer_id;
 
 		$f_category_id			= $t_bug->category_id;
 		$f_reproducibility		= $t_bug->reproducibility;
@@ -115,7 +116,8 @@
 		$f_target_version		= gpc_get_string( 'target_version', '' );
 		$f_profile_id			= gpc_get_int( 'profile_id', 0 );
 		$f_handler_id			= gpc_get_int( 'handler_id', 0 );
-
+		$f_enquirer_id			= gpc_get_int( 'enquirer_id', 0 );
+		
 		$f_category_id			= gpc_get_int( 'category_id', 0 );
 		$f_reproducibility		= gpc_get_int( 'reproducibility', config_get( 'default_bug_reproducibility' ) );
 		$f_eta					= gpc_get_int( 'eta', config_get( 'default_bug_eta' ) );
@@ -143,6 +145,7 @@
 	$t_fields = columns_filter_disabled( $t_fields );
 
 	$tpl_show_category = in_array( 'category_id', $t_fields );
+	$tpl_show_enquirer = in_array( 'enquirer', $t_fields ) && access_has_project_level(config_get( 'update_bug_enquirer_threshold' ));
 	$tpl_show_reproducibility = in_array( 'reproducibility', $t_fields );
 	$tpl_show_eta = in_array( 'eta', $t_fields );
 	$tpl_show_severity = in_array( 'severity', $t_fields );
@@ -204,8 +207,23 @@
 			</select>
 		</td>
 	</tr>
-<?php }
+<?php }?>
 
+	<?php if ($tpl_show_enquirer): ?>
+	<tr <?= helper_alternate_class() ?>>
+		<td class="category">
+			<span class="required">*</span>Demandeur
+		</td>
+		<td>
+			<select <?= helper_get_tab_index() ?> name="enquirer_id" required>
+				<option>(choisir)</option>
+				<?php print_enquirer_to_option_list( $f_enquirer_id ) ?>
+			</select>
+		</td>
+	</tr>
+	<?php endif; ?>
+	
+<?php
 	if ( $tpl_show_reproducibility ) {
 ?>
 

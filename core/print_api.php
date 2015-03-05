@@ -477,6 +477,14 @@ function print_assign_to_option_list( $p_user_id = '', $p_project_id = null, $p_
 	print_user_option_list( $p_user_id, $p_project_id, $p_threshold );
 }
 
+function print_enquirer_to_option_list( $p_user_id = '', $p_project_id = null, $p_threshold = null) {
+	if( null === $p_threshold ) {
+		$p_threshold = config_get( 'enquirer_bug_threshold' );
+	}
+
+	print_user_option_list( $p_user_id, $p_project_id, $p_threshold );
+}
+
 
 function print_note_option_list( $p_user_id = '', $p_project_id = null, $p_threshold = null ) {
 	if ( null === $p_threshold ) {
