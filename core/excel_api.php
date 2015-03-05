@@ -238,6 +238,19 @@ function excel_format_handler_id( $p_bug ) {
 }
 
 /**
+ * Gets the formatted enquirer id.
+ * @param object $p_bug the bug
+ * @returns The enquirer user name or empty string.
+ */
+function excel_format_enquirer_id( $p_bug ) {
+	if( $p_bug->enquirer_id > 0 ) {
+		return excel_prepare_string( user_get_name( $p_bug->enquirer_id ) );
+	} else {
+		return excel_prepare_string( '' );
+	}
+}
+
+/**
  * Gets the formatted priority.
  * @param object $p_bug the bug
  * @returns the priority text.

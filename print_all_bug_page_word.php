@@ -91,6 +91,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	$t_lang_date_submitted = lang_get( 'date_submitted' );
 	$t_lang_last_update = lang_get( 'last_update' );
 	$t_lang_reporter = lang_get( 'reporter' );
+	$t_lang_enquirer = 'Demandeur';
 	$t_lang_assigned_to = lang_get( 'assigned_to' );
 	$t_lang_platform = lang_get( 'platform' );
 	$t_lang_due_date = lang_get( 'due_date' );
@@ -197,6 +198,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <tr>
 	<td class="print-spacer" colspan="6">
 		<hr size="1" width="100%" />
+	</td>
+</tr>
+<tr class="print">
+	<td class="print-category">
+		<?php echo $t_lang_enquirer ?>:
+	</td>
+	<td class="print">
+		<?php print_user_with_subject( $t_bug->enquirer_id, $t_id ) ?>
 	</td>
 </tr>
 <tr class="print">

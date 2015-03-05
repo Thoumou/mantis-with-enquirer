@@ -289,6 +289,8 @@ function column_get_title( $p_column ) {
 			return lang_get( 'category' );
 		case 'edit':
 			return '';
+		case 'enquirer_id':
+			return 'Demandeur';
 		case 'handler_id':
 			return lang_get( 'assigned_to' );
 		case 'last_updated':

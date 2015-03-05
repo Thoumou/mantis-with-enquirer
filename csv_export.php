@@ -65,7 +65,7 @@
 
 	# Get columns to be exported
 	$t_columns = csv_get_columns();
-
+	
 	# export BOM
 	if ( config_get( 'csv_add_bom' ) == ON ) {
 		echo "\xEF\xBB\xBF";

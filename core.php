@@ -281,17 +281,3 @@ if ( !isset( $g_skip_lang_load ) ) {
 
 # signal plugins that the core system is loaded
 event_signal( 'EVENT_CORE_READY' );
-
-// =============== DEBUG =================
-function debug($code) {
-    echo '<pre>';
-    var_export($code);
-    echo '</pre>';
-}
-
-function debugDie($code) {
-    echo '<pre>';
-    var_export($code);
-    echo '</pre>';
-    die();
-}

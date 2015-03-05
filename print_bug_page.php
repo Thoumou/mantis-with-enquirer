@@ -58,6 +58,7 @@
 	$tpl_show_last_updated = in_array( 'last_updated', $t_fields );
 	$tpl_show_view_state = in_array( 'view_state', $t_fields );
 	$tpl_show_reporter = in_array( 'reporter', $t_fields );
+	$tpl_show_enquirer = in_array( 'enquirer', $t_fields );
 	$tpl_show_handler = in_array( 'handler', $t_fields ) && access_has_bug_level( config_get( 'view_handler_threshold' ), $f_bug_id );
 	$tpl_show_due_date = in_array( 'due_date', $t_fields ) && access_has_bug_level( config_get( 'due_date_view_threshold' ), $f_bug_id );
 	$tpl_show_priority = in_array( 'priority', $t_fields );
@@ -183,6 +184,20 @@
 		echo '<td class="print-category">', lang_get( 'reporter' ), '</td>';
 		echo '<td class="print">';
 		print_user_with_subject( $tpl_bug->reporter_id, $f_bug_id );
+		echo '</td>';
+		echo '<td class="print" colspan="4">&#160;</td>';
+		echo '</tr>';
+	}
+	
+	#
+	# Enquirer
+	#
+
+	if ( $tpl_show_enquirer ) {
+		echo '<tr class="print">';
+		echo '<td class="print-category">', 'Demandeur', '</td>';
+		echo '<td class="print">';
+		print_user_with_subject( $tpl_bug->enquirer_id, $f_bug_id );
 		echo '</td>';
 		echo '<td class="print" colspan="4">&#160;</td>';
 		echo '</tr>';

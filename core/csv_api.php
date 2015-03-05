@@ -139,6 +139,18 @@ function csv_format_handler_id( $p_bug ) {
 }
 
 /**
+ * returns the enquirer name corresponding to the supplied bug
+ * @param object $p_bug the bug
+ * @return string formatted user name
+ * @access public
+ */
+function csv_format_enquirer_id( $p_bug ) {
+	if( $p_bug->enquirer_id > 0 ) {
+		return csv_escape_string( user_get_name( $p_bug->enquirer_id ) );
+	}
+}
+
+/**
  * return the priority string
  * @param object $p_bug the bug
  * @return string formatted priority string
