@@ -73,6 +73,7 @@ $tpl_view_state = $tpl_show_view_state ? string_display_line( get_enum_element( 
 $tpl_show_date_submitted = in_array( 'date_submitted', $t_fields );
 $tpl_show_last_updated = in_array( 'last_updated', $t_fields );
 $tpl_show_reporter = in_array( 'reporter', $t_fields );
+$tpl_show_enquirer = in_array( 'enquirer', $t_fields );
 $tpl_show_handler = in_array( 'handler', $t_fields );
 $tpl_show_priority = in_array( 'priority', $t_fields );
 $tpl_show_severity = in_array( 'severity', $t_fields );
@@ -100,6 +101,7 @@ $tpl_show_additional_information = in_array( 'additional_info', $t_fields );
 $tpl_additional_information_textarea = $tpl_show_additional_information ? string_textarea( $tpl_bug->additional_information ) : '';
 $tpl_show_steps_to_reproduce = in_array( 'steps_to_reproduce', $t_fields );
 $tpl_steps_to_reproduce_textarea = $tpl_show_steps_to_reproduce ? string_textarea( $tpl_bug->steps_to_reproduce ) : '';
+$tpl_enquirer_name = string_display_line( user_get_name( $tpl_bug->enquirer_id ) );
 $tpl_handler_name = string_display_line( user_get_name( $tpl_bug->handler_id ) );
 
 $tpl_can_change_view_state = $tpl_show_view_state && access_has_project_level( config_get( 'change_view_status_threshold' ) );
@@ -227,6 +229,34 @@ if ( $tpl_show_reporter ) {
 	} else {
 		$t_spacer += 2;
 	}
+
+	# spacer
+	echo '<td colspan="', $t_spacer, '">&#160;</td>';
+
+	echo '</tr>';
+}
+
+#
+# Enquirer
+#
+
+if ( $tpl_show_enquirer ) {
+	echo '<tr ', helper_alternate_class(), '>';
+
+	$t_spacer = 4;
+
+	echo '<td class="category">', 'Demandeur', '</td>';
+	echo '<td>';
+
+	if ( access_has_project_level( config_get( 'update_bug_enquirer_threshold', config_get( 'update_bug_threshold' ) ) ) ) {
+		echo '<select ', helper_get_tab_index(), ' name="enquirer_id">';
+		print_enquirer_to_option_list( $tpl_bug->enquirer_id, $tpl_bug->project_id );
+		echo '</select>';
+	} else {
+		echo $tpl_enquirer_name;
+	}
+	
+	echo '</td>';
 
 	# spacer
 	echo '<td colspan="', $t_spacer, '">&#160;</td>';

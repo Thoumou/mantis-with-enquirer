@@ -64,6 +64,7 @@
 	$t_old_bug_status = $t_bug_data->status;
 
 	$t_bug_data->reporter_id		= gpc_get_int( 'reporter_id', $t_bug_data->reporter_id );
+	$t_bug_data->enquirer_id		= gpc_get_int( 'enquirer_id', $t_bug_data->enquirer_id );
 	$t_bug_data->handler_id			= gpc_get_int( 'handler_id', $t_bug_data->handler_id );
 	$t_bug_data->duplicate_id		= gpc_get_int( 'duplicate_id', $t_bug_data->duplicate_id );
 	$t_bug_data->priority			= gpc_get_int( 'priority', $t_bug_data->priority );
